@@ -1,6 +1,8 @@
+import os
 from fastapi import FastAPI
 from app.routes.smartmix import router as smartmix_router
 from app.routes.melodix import router as melodix_router
+
 app = FastAPI(
     title="Melodix SmartMix API",
     description="Official AI API for Melodix SmartMix",
@@ -9,16 +11,16 @@ app = FastAPI(
 
 app.include_router(smartmix_router)
 app.include_router(melodix_router)
+
 @app.get("/")
 def home():
     return {
         "message": "Welcome to Melodix SmartMix API",
         "status": "online",
         "version": "1.0.0"
-        import os
+    }
 
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run("app.main:app", host="0.0.0.0", port=port)
-    }

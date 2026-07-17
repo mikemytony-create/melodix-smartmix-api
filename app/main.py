@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import smartmix, lyrics, translation, audio, cloud, users, health
+from app.routes import smartmix, lyrics, translation, audio, cloud, users, health
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 

@@ -1,4 +1,4 @@
-from models.smartmix_request import SmartMixRequest
+from app.models.smartmix_request import SmartMixRequest
 from fastapi import APIRouter
 from services.smartmix_engine import SmartMixEngine
 

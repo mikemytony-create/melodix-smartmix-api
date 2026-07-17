@@ -1,6 +1,6 @@
-from app.models.song import Song
+from models.song import Song
 
-SONGS= [
+SONGS = [
     Song(
         id=1,
         title="Calm Down",
@@ -33,5 +33,27 @@ SONGS= [
         duration=173,
         popularity=88.0,
         release_year=2022
+    ),
+    Song(
+        id=4,
+        title="Midnight City",
+        artist="M83",
+        album="Hurry Up",
+        genre="Electronic",
+        mood=["dreamy", "focus", "chill"],
+        duration=243,
+        popularity=85.0,
+        release_year=2011
+    ),
+    Song(
+        id=5,
+        title="Power",
+        artist="Kanye West",
+        album="My Beautiful Dark Twisted Fantasy",
+        genre="Hip-Hop",
+        mood=["energetic", "motivation"],
+        duration=292,
+        popularity=90.0,
+        release_year=2010
     )
 ]

@@ -1,7 +1,7 @@
-from app.services.music_database import SONGS
-from app.services.smartmix_config import *
-from app.services.ai_engine import AIEngine
-from app.models.user_profile import UserProfile
+from services.music_database import SONGS
+from services.smartmix_config import *
+from services.ai_engine import AIEngine
+from models.user_profile import UserProfile
 
 class SmartMixEngine:
 

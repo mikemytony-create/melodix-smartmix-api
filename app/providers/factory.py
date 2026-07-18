@@ -1,4 +1,4 @@
-from providers.mock import MockTranslationProvider
+from app.providers.mock import MockTranslationProvider
 
 
 class TranslationFactory:

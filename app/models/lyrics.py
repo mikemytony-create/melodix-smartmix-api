@@ -1,13 +1,22 @@
-from pydantic import BaseModel
-from typing import List
+from uuid import UUID, uuid4
+from datetime import datetime
+from typing import Optional
 
-class Song(BaseModel):
-    id: int
+from pydantic import BaseModel, Field
+
+
+class LyricsModel(BaseModel):
+    song_id: UUID = Field(default_factory=uuid4)
+    artist_id: UUID
+
     title: str
-    artist: str
-    album: str
-    genre: str
-    mood: List[str]
-    duration: int # en secondes
-    popularity: float # de 0 à 100
-    release_year: int
+    language: str
+
+    lyrics: str
+    synced_lyrics: Optional[str] = None
+
+    allow_translation: bool = False
+    allow_slowed: bool = False
+
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)

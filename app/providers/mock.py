@@ -3,6 +3,8 @@ from providers.base import TranslationProvider
 
 class MockTranslationProvider(TranslationProvider):
 
+    name = "mock"
+
     def translate(
         self,
         text: str,

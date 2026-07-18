@@ -2,13 +2,13 @@ from uuid import UUID
 
 from fastapi import APIRouter
 
-from schemas.lyrics import (
+from app.schemas.lyrics import (
     LyricsUpload,
     LyricsUpdate,
     LyricsResponse,
 )
 
-from services.lyrics import lyrics_service
+from app.services.lyrics import lyrics_service
 
 router = APIRouter()
 

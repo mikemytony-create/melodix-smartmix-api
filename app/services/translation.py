@@ -1,8 +1,8 @@
 from uuid import UUID
 
 from app.models.translation import TranslationModel
-from services.lyrics import lyrics_db
-from providers.factory import TranslationFactory
+from app.services.lyrics import lyrics_db
+from app.providers.factory import TranslationFactory
 
 # Base de données temporaire des traductions
 translations_db = {}

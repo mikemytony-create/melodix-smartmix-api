@@ -1,4 +1,4 @@
-from models.song import Song
+from app.models.song import Song
 
 SONGS = [
     Song(

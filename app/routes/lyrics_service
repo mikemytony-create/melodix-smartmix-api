@@ -1,0 +1,50 @@
+from uuid import UUID
+from typing import Optional
+
+from fastapi import APIRouter
+
+from app.services.lyrics import lyrics_service
+
+router = APIRouter()
+
+
+
+@router.get("/{song_id}")
+def get_lyrics(song_id: UUID):
+    return lyrics_service.get_lyrics(song_id)
+
+
+@router.get("/{song_id}/synced")
+def get_synced_lyrics(song_id: UUID):
+    return lyrics_service.get_synced_lyrics(song_id)
+
+
+@router.post("/upload")
+def upload_lyrics(
+    song_id: UUID,
+    lyrics: str,
+    synced_lyrics: Optional[str] = None,
+):
+    return lyrics_service.upload_lyrics(
+        song_id,
+        lyrics,
+        synced_lyrics
+    )
+
+
+@router.put("/{song_id}")
+def update_lyrics(
+    song_id: UUID,
+    lyrics: str,
+    synced_lyrics: Optional[str] = None,
+):
+    return lyrics_service.update_lyrics(
+        song_id,
+        lyrics,
+        synced_lyrics
+    )
+
+
+@router.delete("/{song_id}")
+def delete_lyrics(song_id: UUID):
+    return lyrics_service.delete_lyrics(song_id)

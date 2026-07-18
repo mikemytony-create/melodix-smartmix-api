@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from models.translation import TranslationModel
+from app.models.translation import TranslationModel
 from services.lyrics import lyrics_db
 from providers.factory import TranslationFactory
 

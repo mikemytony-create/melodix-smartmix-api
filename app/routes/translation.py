@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 from uuid import UUID
 
-from schemas.translation import TranslationRequest
-from services.translation import translation_service
+from app.schemas.translation import TranslationRequest
+from app.services.translation import translation_service
 
 router = APIRouter()
 

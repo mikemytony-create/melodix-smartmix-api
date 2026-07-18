@@ -2,6 +2,7 @@ from uuid import UUID
 
 from models.translation import TranslationModel
 from services.lyrics import lyrics_db
+from providers.factory import TranslationFactory
 
 # Base de données temporaire des traductions
 translations_db = {}
@@ -20,7 +21,7 @@ class TranslationService:
                 "message": "Lyrics not found."
             }
 
-        # 2. Vérifier les droits de traduction
+        # 2. Vérifier que l'artiste autorise la traduction
         if not lyric.allow_translation:
             return {
                 "status": "error",
@@ -33,20 +34,29 @@ class TranslationService:
         if cache_key in translations_db:
             return translations_db[cache_key]
 
-        # 4. Traduction simulée (à remplacer plus tard)
-        translated_text = f"[{target_language}] {lyric.lyrics}"
+        # 4. Récupérer le fournisseur de traduction
+        provider = TranslationFactory.get_provider()
 
+        # 5. Traduire les paroles
+        translated_text = provider.translate(
+            text=lyric.lyrics,
+            source_language=lyric.language,
+            target_language=target_language,
+        )
+
+        # 6. Créer le modèle de traduction
         translation = TranslationModel(
             song_id=song_id,
             source_language=lyric.language,
             target_language=target_language,
             translated_lyrics=translated_text,
-            provider="mock"
+            provider=provider.name,
         )
 
-        # 5. Sauvegarder la traduction
+        # 7. Sauvegarder la traduction
         translations_db[cache_key] = translation
 
+        # 8. Retourner la traduction
         return translation
 
 

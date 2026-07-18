@@ -66,3 +66,6 @@ class LyricsService:
 
 
 lyrics_service = LyricsService()
+# tes autres imports et fonctions ici
+
+lyrics_db = {}

@@ -1,41 +1,61 @@
 from uuid import UUID
 from typing import Optional
 
+from app.models.lyrics import LyricsModel
+
+# Base de données temporaire (sera remplacée par PostgreSQL)
+lyrics_db = {}
+
 
 class LyricsService:
 
+    def upload_lyrics(
+        self,
+        lyric: LyricsModel,
+    ):
+        """
+        Enregistre les paroles d'une chanson.
+        """
+
+        lyrics_db[str(lyric.song_id)] = lyric
+
+        return {
+            "status": "success",
+            "message": "Lyrics uploaded successfully.",
+            "song_id": str(lyric.song_id),
+        }
+
     def get_lyrics(self, song_id: UUID):
         """
-        Retourne les paroles d'une chanson.
+        Retourne les paroles.
         """
-        return {
-            "song_id": str(song_id),
-            "lyrics": None,
-            "status": "not_implemented"
-        }
+
+        lyric = lyrics_db.get(str(song_id))
+
+        if lyric is None:
+            return {
+                "status": "error",
+                "message": "Lyrics not found."
+            }
+
+        return lyric
 
     def get_synced_lyrics(self, song_id: UUID):
         """
         Retourne les paroles synchronisées.
         """
-        return {
-            "song_id": str(song_id),
-            "synced_lyrics": None,
-            "status": "not_implemented"
-        }
 
-    def upload_lyrics(
-        self,
-        song_id: UUID,
-        lyrics: str,
-        synced_lyrics: Optional[str] = None,
-    ):
-        """
-        Enregistre les paroles.
-        """
+        lyric = lyrics_db.get(str(song_id))
+
+        if lyric is None:
+            return {
+                "status": "error",
+                "message": "Lyrics not found."
+            }
+
         return {
-            "song_id": str(song_id),
-            "message": "Lyrics uploaded successfully",
+            "song_id": lyric.song_id,
+            "synced_lyrics": lyric.synced_lyrics,
             "status": "success"
         }
 
@@ -45,27 +65,39 @@ class LyricsService:
         lyrics: str,
         synced_lyrics: Optional[str] = None,
     ):
-        """
-        Met à jour les paroles.
-        """
+
+        lyric = lyrics_db.get(str(song_id))
+
+        if lyric is None:
+            return {
+                "status": "error",
+                "message": "Lyrics not found."
+            }
+
+        lyric.lyrics = lyrics
+        lyric.synced_lyrics = synced_lyrics
+
+        lyrics_db[str(song_id)] = lyric
+
         return {
-            "song_id": str(song_id),
-            "message": "Lyrics updated successfully",
-            "status": "success"
+            "status": "success",
+            "message": "Lyrics updated successfully."
         }
 
     def delete_lyrics(self, song_id: UUID):
-        """
-        Supprime les paroles.
-        """
+
+        if str(song_id) not in lyrics_db:
+            return {
+                "status": "error",
+                "message": "Lyrics not found."
+            }
+
+        del lyrics_db[str(song_id)]
+
         return {
-            "song_id": str(song_id),
-            "message": "Lyrics deleted successfully",
-            "status": "success"
+            "status": "success",
+            "message": "Lyrics deleted successfully."
         }
 
 
 lyrics_service = LyricsService()
-# tes autres imports et fonctions ici
-
-lyrics_db = {}

@@ -3,6 +3,7 @@ from app.services.smartmix_config import CONFIG
 from app.services.ai_engine import AIEngine
 from app.models.user_profile import UserProfile
 
+
 class SmartMixEngine:
     def __init__(self):
         self.ai = AIEngine()
@@ -23,22 +24,25 @@ class SmartMixEngine:
                 skipped_songs=[],
                 recently_played=[]
             )
+
             score = 0
 
-            # Humeur
+            # Correspondance de l'humeur
             if mood.lower() in [m.lower() for m in song.mood]:
-                score += MOOD_WEIGHT
+                score += CONFIG["MOOD_WEIGHT"]
 
             # Artiste préféré
             if song.artist.lower() in [a.lower() for a in favorite_artists]:
-                score += ARTIST_WEIGHT
+                score += CONFIG["ARTIST_WEIGHT"]
 
             # Genre préféré
             if song.genre.lower() in [g.lower() for g in favorite_genres]:
-                score += GENRE_WEIGHT
+                score += CONFIG["GENRE_WEIGHT"]
+
+            # Score IA
+            score += self.ai.calculate_ai_score(profile, song)
 
             if score > 0:
-                score += self.ai.calculate_ai_score(profile, song)
                 playlist.append({
                     "id": song.id,
                     "title": song.title,
@@ -47,9 +51,18 @@ class SmartMixEngine:
                     "score": score
                 })
 
-        playlist.sort(key=lambda x: x["score"], reverse=True)
+        playlist.sort(
+            key=lambda music: music["score"],
+            reverse=True
+        )
+
+        max_songs = CONFIG.get("MAX_SONGS_PER_MIX", 20)
 
         return {
             "mood": mood,
-            "playlist": playlist
+            "total": min(len(playlist), max_songs),
+            "playlist": playlist[:max_songs]
         }
+
+
+smartmix_engine = SmartMixEngine()
